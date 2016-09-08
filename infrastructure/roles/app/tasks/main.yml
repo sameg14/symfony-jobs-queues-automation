@@ -1,0 +1,63 @@
+---
+- name: Update APP code
+  git: repo=git@github.com:sameg14/symfony-jobs-queues-automation.git
+        dest=/var/www/app
+        version=master
+        accept_hostkey=True
+        force=True
+  when: symfony_env != 'dev'
+
+- name: Install APP composer packages
+  composer: command=install working_dir=/var/www/app
+  become: false
+
+- name: Ensure sessions has correct perms
+  file: dest={{item}} owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} state=directory mode=0775
+  with_items:
+    - /var/www/app/var/sessions
+    - /tmp/cache
+    - /tmp/logs
+  become: True
+
+- name: Clear symfony cache
+  shell: ./bin/console cache:clear -e {{ symfony_env }}
+  become: yes
+  args:
+    chdir: /var/www/app
+  ignore_errors: True
+
+- name: Fix perms on logs and cache dirs
+  shell: "{{ item }}"
+  with_items:
+    - "chmod -R 0777 /tmp/logs"
+    - "chmod -R 0777 /tmp/cache"
+  become: True
+
+- name: Restart services
+  service: name={{ item }} state=restarted enabled=yes
+  with_items:
+    - nginx
+    - php7.0-fpm
+  become: True
+  ignore_errors: True
+  
+- name: Ensure supervisor is started
+  service: name=supervisor state=started enabled=yes
+  ignore_errors: True
+
+- name: Stop supervisor monitored applications
+  shell: supervisorctl stop php-resque-default && supervisorctl stop php-resque-default php-resque-email
+  become: True
+
+- name: Start supervisor monitored applications
+  shell: supervisorctl start php-resque-default && supervisorctl start php-resque-default php-resque-email
+  become: True
+
+- name: Ensure schema update and migrations run when provisioning a new vm
+  shell: "{{ item }}"
+  with_items:
+    - ./bin/console doctrine:schema:update --force
+    - ./bin/console doctrine:migrations:migrate --no-interaction
+  when: symfony_env == "dev"
+  args:
+    chdir: /var/www/app

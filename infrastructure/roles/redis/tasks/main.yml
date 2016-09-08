@@ -1,0 +1,43 @@
+---
+- name: Add python software properties
+  apt:
+    pkg="python-software-properties"
+    state=present
+  become: True
+
+- name: Add redis repo
+  apt_repository: repo='ppa:rwky/redis'
+  become: True
+
+- name: Update apt packages
+  apt: update_cache=yes
+  become: True
+
+- name: Install redis dev machine packages
+  apt:
+    pkg="{{ item }}"
+    state=present
+  with_items:
+    - tcl8.5
+    - redis-server
+  become: True
+
+- name: Install redis universal packages
+  apt:
+    pkg="{{ item }}"
+    state=present
+  with_items:
+    - php5-redis
+    - libxml2
+    - zlib1g-dev
+  become: True
+
+- name: Configure redis
+  template: src=redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644
+  become: True
+
+- name: Start redis
+  service:
+    name="redis-server"
+    state=restarted
+  become: True

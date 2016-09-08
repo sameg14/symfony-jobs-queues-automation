@@ -1,0 +1,55 @@
+---
+- name: Install packages
+  action: apt pkg="{{ item }}" state=present
+  become: True
+  with_items:
+    - ruby
+    - ruby-dev
+    - libxml2
+    - zlib1g-dev
+    - supervisor
+    - nodejs
+    - npm
+
+- name: Configure supervisord
+  template: src=supervisord.conf.j2 dest=/etc/supervisor/supervisord.conf owner=root group=root mode=0644
+  become: True
+
+- name: Ensure supervisor php-resque log directory exists
+  file: path=/var/log/resque state=directory mode=0777
+  become: True
+
+- name: Install resque
+  gem: name={{ item.name }} version={{ item.version }} state=present include_dependencies=yes user_install=no pre_release=no
+  become: True
+  with_items:
+    - { name: resque, version: 1.25.2 }
+  ignore_errors: true
+
+- name: Install php-resque
+  git: repo=https://github.com/chrisboulton/php-resque.git dest=/var/www/php-resque
+  args:
+    accept_hostkey: true
+  become: True
+
+- name: Ensure resque ownership
+  shell: chown -R {{ansible_ssh_user}}:{{ansible_ssh_user}} /var/www/php-resque
+  become: True
+
+- name: Install composer packages
+  composer: command=install working_dir=/var/www/php-resque
+  sudo: True
+
+- name: Start worker monitoring web interface
+  shell: resque-web
+  ignore_errors: true
+
+- name: Configure services
+  template: src={{ item.src }} dest={{ item.dest }}
+  become: True
+  with_items:
+    - { src: resque-default.conf.j2, dest: /etc/supervisor/conf.d/resque-default.conf }
+
+- name: Ensure supervisor
+  service: name=supervisor state=started
+  ignore_errors: True

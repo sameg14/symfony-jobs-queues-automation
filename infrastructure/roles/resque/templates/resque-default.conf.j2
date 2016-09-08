@@ -1,0 +1,30 @@
+[program:php-resque-default]
+
+{% if symfony_env == "dev" %}
+numprocs=1
+{% else %}
+numprocs=5
+{% endif %}
+
+command=php /var/vendor/chrisboulton/php-resque/resque.php
+
+directory=/var/www/app
+process_name=%(program_name)s_%(process_num)02d
+
+autostart=true
+autorestart=true
+stopasgroup=false
+killasgroup=false
+
+user={{ ansible_ssh_user }}
+
+priority=999
+environment=SYMFONY_ENV="{{ symfony_env }}",COUNT="1",QUEUE="default",APP_INCLUDE="/var/vendor/autoload.php",REDIS_SERVER_IP="{{ redis_server }}",REDIS_SERVER_PORT="{{ redis_port }}"
+
+stdout_logfile=/var/log/resque/default-output.log
+stdout_logfile_maxbytes=5MB
+stdout_logfile_backups=10
+
+stderr_logfile=/var/log/resque/default-error.log
+stderr_logfile_maxbytes=5MB
+stderr_logfile_backups=10

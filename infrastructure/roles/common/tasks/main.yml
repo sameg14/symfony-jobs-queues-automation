@@ -1,0 +1,130 @@
+---
+- name: Ensure PPAs
+  apt_repository: repo="{{ item }}"
+  become: True
+  with_items:
+    - ppa:ondrej/php
+    - ppa:ansible/ansible
+  ignore_errors: True
+
+- action: apt pkg=vim state=present
+  become: True
+
+- action: apt pkg=git state=present
+  become: True
+
+- action: apt pkg=htop state=present
+  become: True
+
+- action: apt pkg=php7.0-common state=present
+  become: True
+
+- action: apt pkg=php7.0 state=present
+  become: True
+
+- action: apt pkg=php7.0-dev state=present
+  become: True
+
+- action: apt pkg=libreadline-dev state=present
+  become: True
+
+- action: apt pkg=php7.0-readline state=present
+  become: True
+
+- action: apt pkg=php7.0-gd state=present
+  become: True
+
+- action: apt pkg=php7.0-curl state=present
+  become: True
+
+- action: apt pkg=php7.0-mysql state=present
+  become: True
+
+- action: apt pkg=php-apc state=present
+  become: True
+
+- action: apt pkg=php7.0-cli state=present
+  become: True
+
+- action: apt pkg=php7.0-intl state=present
+  become: True
+
+- action: apt pkg=php7.0-mcrypt state=present
+  become: True
+
+- action: apt pkg=php7.0-fpm state=present
+  become: True
+
+- action: apt pkg=python-setuptools state=present
+  become: True
+
+- action: apt pkg=python-dev state=present
+  become: True
+
+- action: apt pkg=build-essential state=present
+  become: True
+
+- action: apt pkg=python-pip state=present
+  become: True
+
+- action: apt pkg=libmysqlclient-dev state=present
+  become: True
+
+- action: apt pkg=software-properties-common state=present
+  become: True
+
+- action: apt pkg=zip state=present
+  become: True
+
+- action: apt pkg=unzip state=present
+  become: True
+
+- action: apt pkg=apache2 state=absent
+  become: True
+
+- name: Install pip
+  shell: easy_install pip
+  become: True
+
+- action: apt pkg=mysql-server state=present
+  become: True
+
+- action: apt pkg=mysql-client state=present
+  become: True
+
+- action: apt pkg=python-mysqldb state=present
+  become: True
+
+- action: apt pkg=ansible state=present
+  become: True
+  when: symfony_env == "dev"
+
+- name: Ensure hosts file for DNS routing override
+  template: src=hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
+  become: True
+  when: symfony_env == "dev"
+
+- name: Ensure environment aware bash_profile for development
+  template: src=.bash_profile.j2 dest=/home/vagrant/.bash_profile owner=vagrant group=vagrant mode=0655
+  when: symfony_env == "dev"
+
+- name: Ensure environment aware bash_profile for ubuntu
+  template: src=.bash_profile.j2 dest=/home/ubuntu/.bash_profile owner=ubuntu group=ubuntu mode=0655
+  when: symfony_env != "dev"
+
+- name: Ensure environment aware bash_profile for ubuntu
+  template: src=.bash_profile.j2 dest=/root/.bash_profile owner=root group=root mode=0655
+  when: symfony_env != "dev"
+  become: True
+
+- name: move composer to appropriate location
+  copy: src=composer.phar dest=/usr/local/bin/composer owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode="u+rwx,g+rx,o-rwx"
+  become: True
+
+- name: Ensure web directory permissions
+  file: path=/var/www state=directory mode=0755 owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }}
+  become: True
+
+- name: Ensure phpunit exists and is executable
+  copy: src=phpunit.phar dest=/usr/local/bin/phpunit owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} mode="u+rwx,g+rx,o-rwx"
+  become: True
