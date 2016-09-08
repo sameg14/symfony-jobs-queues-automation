@@ -25,7 +25,7 @@ class AppKernel extends Kernel
         }
 
         return $bundles;
-    }   
+    }
 
     public function getRootDir()
     {
@@ -34,16 +34,26 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
+        $dir = '/tmp/cache/' . $this->getEnvironment();
+        if (!is_dir($dir)) {
+            mkdir($dir);
+        }
+
+        return $dir;
     }
 
     public function getLogDir()
     {
-        return dirname(__DIR__).'/var/logs';
+        $dir = '/tmp/logs';
+        if (!is_dir($dir)) {
+            mkdir($dir);
+        }
+
+        return $dir;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 }

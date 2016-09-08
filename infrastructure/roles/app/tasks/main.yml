@@ -44,12 +44,3 @@
 - name: Start supervisor monitored applications
   shell: supervisorctl start php-resque-default && supervisorctl start php-resque-default php-resque-email
   become: True
-
-- name: Ensure schema update and migrations run when provisioning a new vm
-  shell: "{{ item }}"
-  with_items:
-    - ./bin/console doctrine:schema:update --force
-    - ./bin/console doctrine:migrations:migrate --no-interaction
-  when: symfony_env == "dev"
-  args:
-    chdir: /var/www/app
