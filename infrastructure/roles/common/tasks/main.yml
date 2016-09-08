@@ -7,95 +7,78 @@
     - ppa:ansible/ansible
   ignore_errors: True
 
-- action: apt pkg=vim state=present
+- name: vim
+  action: apt pkg=vim state=present
   become: True
 
-- action: apt pkg=git state=present
+- name: git
+  action: apt pkg=git state=present
   become: True
 
-- action: apt pkg=htop state=present
+- name: htop
+  action: apt pkg=htop state=present
   become: True
 
-- action: apt pkg=php7.0-common state=present
+- name: PHP 7
+  action: apt pkg={{ item }} state=present
+  with_items:
+    - php7.0-common
+    - php7.0
+    - php7.0-dev
+    - libreadline-dev
+    - php7.0-readline
+    - php7.0-gd
+    - php7.0-curl
+    - php7.0-mysql
+    - php-apc
+    - php7.0-cli
+    - php7.0-intl
+    - php7.0-mcrypt
+    - php7.0-fpm
   become: True
 
-- action: apt pkg=php7.0 state=present
+- name: python-setuptools
+  action: apt pkg=python-setuptools state=present
   become: True
 
-- action: apt pkg=php7.0-dev state=present
+- name: python-dev
+  action: apt pkg=python-dev state=present
   become: True
 
-- action: apt pkg=libreadline-dev state=present
+- name: build-essential
+  action: apt pkg=build-essential state=present
   become: True
 
-- action: apt pkg=php7.0-readline state=present
+- name: python-pip
+  action: apt pkg=python-pip state=present
   become: True
 
-- action: apt pkg=php7.0-gd state=present
+- name: libmysqlclient-dev
+  action: apt pkg=libmysqlclient-dev state=present
   become: True
 
-- action: apt pkg=php7.0-curl state=present
+- name: software-properties-common
+  action: apt pkg=software-properties-common state=present
   become: True
 
-- action: apt pkg=php7.0-mysql state=present
+- name: zip
+  action: apt pkg=zip state=present
   become: True
 
-- action: apt pkg=php-apc state=present
+- name: unzip
+  action: apt pkg=unzip state=present
   become: True
 
-- action: apt pkg=php7.0-cli state=present
-  become: True
-
-- action: apt pkg=php7.0-intl state=present
-  become: True
-
-- action: apt pkg=php7.0-mcrypt state=present
-  become: True
-
-- action: apt pkg=php7.0-fpm state=present
-  become: True
-
-- action: apt pkg=python-setuptools state=present
-  become: True
-
-- action: apt pkg=python-dev state=present
-  become: True
-
-- action: apt pkg=build-essential state=present
-  become: True
-
-- action: apt pkg=python-pip state=present
-  become: True
-
-- action: apt pkg=libmysqlclient-dev state=present
-  become: True
-
-- action: apt pkg=software-properties-common state=present
-  become: True
-
-- action: apt pkg=zip state=present
-  become: True
-
-- action: apt pkg=unzip state=present
-  become: True
-
-- action: apt pkg=apache2 state=absent
-  become: True
-
-- name: Install pip
+- name: pip
   shell: easy_install pip
   become: True
 
-- action: apt pkg=mysql-server state=present
+- name: python-mysqldb
+  action: apt pkg=python-mysqldb state=present
   become: True
 
-- action: apt pkg=mysql-client state=present
-  become: True
-
-- action: apt pkg=python-mysqldb state=present
-  become: True
-
-- action: apt pkg=ansible state=present
+- name: ansible
+  action: apt pkg=ansible state=present
   become: True
   when: symfony_env == "dev"
 
