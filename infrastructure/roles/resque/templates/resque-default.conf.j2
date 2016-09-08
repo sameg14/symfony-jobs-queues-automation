@@ -19,7 +19,7 @@ killasgroup=false
 user={{ ansible_ssh_user }}
 
 priority=999
-environment=SYMFONY_ENV="{{ symfony_env }}",COUNT="1",QUEUE="default",APP_INCLUDE="/var/vendor/autoload.php",REDIS_SERVER_IP="{{ redis_server }}",REDIS_SERVER_PORT="{{ redis_port }}"
+environment=SYMFONY_ENV="{{ symfony_env }}",COUNT="1",QUEUE="default",APP_INCLUDE="/var/vendor/autoload.php",REDIS_SERVER_IP="{{ redis_ip }}",REDIS_SERVER_PORT="{{ redis_port }}"
 
 stdout_logfile=/var/log/resque/default-output.log
 stdout_logfile_maxbytes=5MB
