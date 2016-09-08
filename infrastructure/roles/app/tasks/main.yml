@@ -1,12 +1,4 @@
 ---
-- name: Update APP code
-  git: repo=git@github.com:sameg14/symfony-jobs-queues-automation.git
-        dest=/var/www/app
-        version=master
-        accept_hostkey=True
-        force=True
-  when: symfony_env != 'dev'
-
 - name: Install APP composer packages
   composer: command=install working_dir=/var/www/app
   become: false

@@ -38,7 +38,7 @@
 
 - name: Install composer packages
   composer: command=install working_dir=/var/www/php-resque
-  sudo: True
+  become: True
 
 - name: Start worker monitoring web interface
   shell: resque-web
