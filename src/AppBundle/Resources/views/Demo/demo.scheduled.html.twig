@@ -4,7 +4,14 @@
     <div class="intro-header">
         <div class="col-xs-12 text-center abcen1">
             <h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Scheduled</h1>
-            <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">JobId: {{ jobId }}</h3>
+            <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">
+                JobId: <span style="color: #CDEB8B;">{{ jobId }}</span>
+            </h3>
+
+            <a href="{{ path('demo_index') }}" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s">
+                <span class="network-name">Back</span>
+            </a>
+
         </div>
     </div>
 {% endblock %}

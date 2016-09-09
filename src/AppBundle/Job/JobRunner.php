@@ -5,8 +5,8 @@ namespace AppBundle\Job;
 use \Resque;
 use \Resque_Worker;
 use \Resque_Job_Status;
+use AppBundle\Job\Worker\AbstractBaseWorker;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 
 /**
  * Class JobRunner will run specific workers
@@ -104,7 +104,6 @@ class JobRunner
     public function getStatus()
     {
         $job = new Resque_Job_Status($this->getJobId());
-
         $jobStatusCode = $job->get();
 
         switch ($jobStatusCode) {

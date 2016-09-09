@@ -203,7 +203,7 @@ abstract class AbstractBaseWorker
             $this->args = $this->args[0];
         }
 
-        return !empty($this->args) && isset($this->args['body']) ? $this->args['body'] : null;
+        return !empty($this->args) && isset($this->args['body']) ? $this->args['body'] : $this->args;
     }
 
     /**
