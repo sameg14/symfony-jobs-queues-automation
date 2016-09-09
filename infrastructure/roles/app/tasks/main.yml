@@ -44,3 +44,8 @@
 - name: Start supervisor monitored applications
   shell: supervisorctl start php-resque-default && supervisorctl start php-resque-default php-resque-email
   become: True
+
+- name: Restart supervisor jobs
+  shell: sudo service supervisor restart
+  sudo: True
+  ignore_errors: True
