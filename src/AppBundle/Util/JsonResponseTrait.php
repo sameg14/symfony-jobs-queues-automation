@@ -2,9 +2,9 @@
 
 namespace AppBundle\Util;
 
+use \Exception;
 use AppBundle\Exception\DeveloperException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use \Exception;
 
 /**
  * Class JsonResponseTrait helps with rendering standard JSON responses

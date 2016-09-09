@@ -8,9 +8,12 @@
                 JobId: <span style="color: #CDEB8B;">{{ jobId }}</span>
             </h3>
 
-            <a href="{{ path('demo_index') }}" class="btn  btn-lg mybutton_cyano wow fadeIn" data-wow-delay="0.8s">
-                <span class="network-name">Back</span>
-            </a>
+            <a href="{{ path('job_status', {'jobId': jobId}) }}" class="btn btn-success" target="_blank">Job Status</a>
+
+            <a href="{{ path('job_data', {'jobId': jobId}) }}" class="btn btn-info" target="_blank">Job Data</a>
+
+            <a href="{{ path('demo_index') }}" class="btn btn-warning">Back</a>
+
 
         </div>
     </div>

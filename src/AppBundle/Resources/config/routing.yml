@@ -12,3 +12,13 @@ process_email:
     path: /email
     defaults: { _controller: AppBundle:Worker:scheduleEmailWorker }
     methods: ["POST"]
+
+job_status:
+    path: /status/{jobId}
+    defaults: { _controller: AppBundle:Worker:getWorkerStatus }
+    methods: ["GET"]
+
+job_data:
+    path: /data/{jobId}
+    defaults: { _controller: AppBundle:Worker:getWorkerData }
+    methods: ["GET"]

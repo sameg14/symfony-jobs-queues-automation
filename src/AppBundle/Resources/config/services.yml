@@ -3,7 +3,7 @@ services:
         class: AppBundle\Job\DataBroker
         arguments: ["%redis_server%", "%redis_port%"]
 
-    service.job_scheduler:
+    service.job_runner:
         class: AppBundle\Job\JobRunner
         arguments: ["%redis_server%", "%redis_port%", "@service.data_broker"]
 
@@ -13,3 +13,7 @@ services:
 
     client.guzzle:
         class: GuzzleHttp\Client
+
+    util.data_broker:
+        class: AppBundle\Job\DataBroker
+        arguments: ["%redis_server%", "%redis_port%"]

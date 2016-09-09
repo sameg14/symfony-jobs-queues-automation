@@ -5,7 +5,6 @@ namespace AppBundle\Job\Worker;
 use AppBundle\Job\DataBroker;
 use Symfony\Bridge\Monolog\Logger;
 use AppBundle\Util\JsonResponseTrait;
-use AppBundle\Exception\DeveloperException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -108,10 +107,6 @@ abstract class AbstractBaseWorker
             $this->logger = $this->container->get('logger');
         }
 
-        $fp = fopen('/tmp/debug', 'a+');
-        fwrite($fp, $msg);
-        fclose($fp);
-
         return $this->logger->addDebug($msg);
     }
 
@@ -206,28 +201,6 @@ abstract class AbstractBaseWorker
     protected function getPayload()
     {
         return !empty($this->args) && isset($this->args['body']) ? $this->args['body'] : $this->args;
-    }
-
-    /**
-     * Get a bearer token from the authorization header
-     * @throws DeveloperException
-     * @return string|null
-     */
-    protected function getBearerToken()
-    {
-        $token = null;
-
-        $payloadHeaders = $this->getPayloadHeaders();
-        $headerData = $this->decodeJson($payloadHeaders);
-
-        if (isset($headerData['authorization']) && !empty($headerData['authorization'][0])) {
-            $auth = $headerData['authorization'][0];
-            $pieces = explode("Bearer:", $auth);
-            $token = array_pop($pieces);
-            $token = trim($token);
-        }
-
-        return $token;
     }
 
     /**

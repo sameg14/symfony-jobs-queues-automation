@@ -50,9 +50,9 @@ class HackerNewsEmailWorker extends AbstractBaseWorker
         $didSend = $mailer->send($message);
 
         $this->broker->setData([
-            'emailAddress' => $payload,
-            'storyIds' => $storyIds,
-            'didSend' => $didSend
+            'toEmail' => $toEmail,
+            'fromEmail' => $fromEmail,
+            'didSend' => (bool)$didSend
         ]);
     }
 
