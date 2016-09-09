@@ -30,7 +30,8 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "predis/predis": "^1.0",
-        "chrisboulton/php-resque": "^1.2"
+        "chrisboulton/php-resque": "^1.2",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

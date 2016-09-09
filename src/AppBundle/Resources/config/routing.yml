@@ -3,3 +3,7 @@ app_homepage:
     defaults: { _controller: AppBundle:Home:index }
     methods: ["GET"]
 
+demo_index:
+    path: /demo
+    defaults: { _controller: AppBundle:Worker:demoIndex }
+    methods: ["GET"]

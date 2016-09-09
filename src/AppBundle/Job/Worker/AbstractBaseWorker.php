@@ -9,10 +9,10 @@ use AppBundle\Exception\DeveloperException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class AbstractWorker will provide base functionality for all child workers to inherit
+ * Class AbstractBaseWorker will provide base functionality for all child workers to inherit
  * @package WorkerBundle\Job\Worker
  */
-abstract class AbstractWorker
+abstract class AbstractBaseWorker
 {
     use JsonResponseTrait;
 
