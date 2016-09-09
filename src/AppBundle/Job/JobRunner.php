@@ -9,10 +9,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use WorkerBundle\Job\Worker\AbstractWorker;
 
 /**
- * Class JobScheduler
+ * Class JobRunner will run specific workers
  * @package AppBundle\Job
  */
-class JobScheduler
+class JobRunner
 {
     const JOB_NAMESPACE = 'AppBundle\\Worker';
 
@@ -65,7 +65,7 @@ class JobScheduler
     protected $dataBroker;
 
     /**
-     * JobScheduler constructor.
+     * JobRunner constructor.
      * @param string $redisServer
      * @param int $redisPort
      * @param DataBroker $dataBroker

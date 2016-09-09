@@ -1,4 +1,8 @@
 services:
-#    app.example:
-#        class: AppBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    service.data_broker:
+        class: AppBundle\Job\DataBroker
+        arguments: ["%redis_server%", "%redis_port%"]
+
+    service.job_scheduler:
+        class: AppBundle\Job\JobRunner
+        arguments: ["%redis_server%", "%redis_port%", "@service.data_broker"]

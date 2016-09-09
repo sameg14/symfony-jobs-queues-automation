@@ -75,15 +75,14 @@ class DataBroker
      */
     public function connect()
     {
-        if (!isset($this->connected)) {
+        if (!$this->isConnected()) {
 
             $this->client = new Client([
                 'scheme' => 'tcp',
                 'host' => $this->redisServer,
                 'port' => $this->redisPort,
             ]);
-
-            $this->connected = true;
+            $this->connected = !empty($this->client);
         }
     }
 
@@ -135,7 +134,7 @@ class DataBroker
      */
     protected function getKey()
     {
-        return 'job-data-' . $this->jobId;
+        return 'job:data:' . $this->jobId;
     }
 
     /**
