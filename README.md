@@ -19,3 +19,6 @@ The code will be mounted to a virtual folder located in `/var/www/app` on the VM
 You also need to add an `/etc/hosts` entry for the virtual domain
 
 `10.10.10.123    jobdemo.vm`
+
+
+You can now view the site in your browser [http://jobdemo.vm](http://jobdemo.vm)
