@@ -10,7 +10,7 @@
 - name: Install APP composer packages
   composer: command=install working_dir=/var/www/app
   become: False
-  
+
 - name: Clear symfony cache
   shell: ./bin/console cache:clear -e {{ symfony_env }}
   become: yes
