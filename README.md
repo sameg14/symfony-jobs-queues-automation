@@ -16,3 +16,6 @@ You can use supervisor crontrol to manage the worker processes `sudo supervisorc
 
 The code will be mounted to a virtual folder located in `/var/www/app` on the VM. So any changes you make to this repo on your mac will be immedietly available to you in the VM
 
+You also need to add an `/etc/hosts` entry for the virtual domain
+
+`10.10.10.123    jobdemo.vm`
