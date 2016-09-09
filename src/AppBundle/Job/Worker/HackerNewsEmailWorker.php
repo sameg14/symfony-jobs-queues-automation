@@ -46,7 +46,7 @@ class HackerNewsEmailWorker extends AbstractBaseWorker
             ->setTo($toEmail)
             ->setBody($body)
             ->setContentType('text/html');
-        
+
         $didSend = $mailer->send($message);
 
         $this->broker->setData([

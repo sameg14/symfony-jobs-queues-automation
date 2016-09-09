@@ -1,7 +1,7 @@
 [program:php-resque-default]
 
 {% if symfony_env == "dev" %}
-numprocs=1
+numprocs=2
 {% else %}
 numprocs=5
 {% endif %}
