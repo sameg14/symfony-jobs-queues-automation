@@ -6,7 +6,7 @@ use \Resque;
 use \Resque_Worker;
 use \Resque_Job_Status;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WorkerBundle\Job\Worker\AbstractWorker;
+
 
 /**
  * Class JobRunner will run specific workers
@@ -14,7 +14,7 @@ use WorkerBundle\Job\Worker\AbstractWorker;
  */
 class JobRunner
 {
-    const JOB_NAMESPACE = 'AppBundle\\Worker';
+    const JOB_NAMESPACE = 'AppBundle\\Job\\Worker';
 
     /**
      * Name of queue, default is default
@@ -85,7 +85,7 @@ class JobRunner
      */
     public function schedule()
     {
-        /** @var  AbstractWorker $obj */
+        /** @var AbstractBaseWorker $obj */
         $obj = new $this->workerClass();
         $obj->setContainer($this->container);
         $obj->args = $this->jobData;
@@ -169,11 +169,11 @@ class JobRunner
     }
 
     /**
-     * @param string $workerClass just the non namespaced worker clss
+     * @param string $workerClass just the non namespaced worker class
      */
     public function setWorkerClass($workerClass)
     {
-        $this->workerClass = __NAMESPACE__ . '\\Worker\\' . $workerClass;
+        $this->workerClass = $workerClass;
     }
 
     /**

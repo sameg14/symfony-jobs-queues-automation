@@ -1,6 +1,6 @@
 <?php
 
-namespace WorkerBundle\Job\Worker;
+namespace AppBundle\Job\Worker;
 
 use AppBundle\Job\DataBroker;
 use Symfony\Bridge\Monolog\Logger;

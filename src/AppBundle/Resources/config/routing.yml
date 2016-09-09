@@ -7,3 +7,8 @@ demo_index:
     path: /demo
     defaults: { _controller: AppBundle:Worker:demoIndex }
     methods: ["GET"]
+
+process_email:
+    path: /email
+    defaults: { _controller: AppBundle:Worker:scheduleEmailWorker }
+    methods: ["POST"]

@@ -2,8 +2,8 @@
 
 namespace AppBundle\Job\Worker;
 
+use AppBundle\Exception\UserException;
 use AppBundle\Exception\DeveloperException;
-use WorkerBundle\Job\Worker\AbstractBaseWorker;
 
 /**
  * Class HackerNewsEmailWorker will email you a list of hacker news articles
@@ -18,24 +18,40 @@ class HackerNewsEmailWorker extends AbstractBaseWorker
      */
     public function perform()
     {
+        $stories = [];
         $payload = $this->getPayload();
+        $hackerNewsService = $this->getContainer()->get('service.hacker_news');
 
-        $this->broker->setData($this->responseData);
+        $storyIds = $hackerNewsService->getLatestStories();
+
+        if (empty($storyIds)) {
+            throw new DeveloperException('No stories found');
+        }
+
+        foreach ($stories as $storyId) {
+            $stories[] = $hackerNewsService->getOneStory($storyId);
+        }
+
+        $this->broker->setData([
+            'emailAddress' => $payload,
+            'storyIds' => $storyIds
+        ]);
     }
 
     /**
-     * Ensure that the payload is valid
+     * Ensure that the payload is valid and contains only an email address
+     * @throws UserException
      * @return bool
      */
     public function validate()
     {
-        /**
-         * JSON Payload from the devices out in the field. Can be an associative array or an array of assoc arrays
-         * @var string
-         */
         $payload = $this->getPayload();
         if (empty($payload)) {
-            DeveloperException::emptyPayload();
+            UserException::emptyPayload();
+        }
+
+        if (!filter_var($payload, FILTER_VALIDATE_EMAIL)) {
+            UserException::invalidEmailAddress($payload);
         }
 
         return true;

@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="intro-header">
+        <div class="col-xs-12 text-center abcen1">
+            <h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Demo</h1>
+            <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Enter your email address to schedule worker</h3>
+
+            <form class="form-inline" action="{{ path('process_email') }}" method="post">
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Email address" size="40">
+                </div>
+                <button type="submit" class="btn btn-primary">Schedule worker</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

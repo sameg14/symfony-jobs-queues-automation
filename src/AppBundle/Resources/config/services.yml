@@ -6,3 +6,10 @@ services:
     service.job_scheduler:
         class: AppBundle\Job\JobRunner
         arguments: ["%redis_server%", "%redis_port%", "@service.data_broker"]
+
+    service.hacker_news:
+        class: AppBundle\Service\HackerNewsService
+        arguments: ["@client.guzzle"]
+
+    client.guzzle:
+        class: GuzzleHttp\Client
