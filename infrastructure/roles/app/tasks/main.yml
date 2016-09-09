@@ -1,8 +1,4 @@
 ---
-- name: Install APP composer packages
-  composer: command=install working_dir=/var/www/app
-  become: false
-
 - name: Ensure sessions has correct perms
   file: dest={{item}} owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} state=directory mode=0775
   with_items:
@@ -11,6 +7,10 @@
     - /tmp/logs
   become: True
 
+- name: Install APP composer packages
+  composer: command=install working_dir=/var/www/app
+  become: False
+  
 - name: Clear symfony cache
   shell: ./bin/console cache:clear -e {{ symfony_env }}
   become: yes
