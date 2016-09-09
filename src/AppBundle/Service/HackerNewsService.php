@@ -38,8 +38,10 @@ class HackerNewsService
      */
     public function getLatestStories()
     {
-        $stories = $this->client->get(self::STORY_IDS_ENDPOINT);
+        $response = $this->client->get(self::STORY_IDS_ENDPOINT);
 
+        $stories = $response->getBody()->getContents();
+        
         return $this->decodeJson($stories);
     }
 
@@ -52,8 +54,14 @@ class HackerNewsService
     {
         $url = str_replace('{storyId}', $storyId, self::STORY_DETAIL_ENDPOINT);
 
-        $story = $this->client->get($url);
+        $response = $this->client->get($url);
 
-        return $this->decodeJson($story);
+        $story = $response->getBody()->getContents();
+        $story = $this->decodeJson($story);
+
+        return [
+            'title' => isset($story['title']) ? $story['title'] : null,
+            'text' => isset($story['text']) ? $story['text'] : null
+        ];
     }
 }

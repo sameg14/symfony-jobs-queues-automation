@@ -18,23 +18,41 @@ class HackerNewsEmailWorker extends AbstractBaseWorker
      */
     public function perform()
     {
-        $stories = [];
-        $payload = $this->getPayload();
+        $mailer = $this->getContainer()->get('mailer');
+        $template = $this->getContainer()->get('templating');
         $hackerNewsService = $this->getContainer()->get('service.hacker_news');
 
-        $storyIds = $hackerNewsService->getLatestStories();
+        $stories = [];
+        $payload = $this->getPayload();
+        $toEmail = $payload['email'];
+        $fromEmail = $this->getContainer()->getParameter('from_email');
 
+        $storyIds = $hackerNewsService->getLatestStories();
         if (empty($storyIds)) {
             throw new DeveloperException('No stories found');
         }
 
-        foreach ($stories as $storyId) {
+        foreach ($storyIds as $storyId) {
             $stories[] = $hackerNewsService->getOneStory($storyId);
         }
 
+        $body = $template->render('AppBundle:Demo:email.hackernews.html.twig', [
+            'stories' => $stories
+        ]);
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Daily hacker news summary')
+            ->setFrom($fromEmail)
+            ->setTo($toEmail)
+            ->setBody($body)
+            ->setContentType('text/html');
+        
+        $didSend = $mailer->send($message);
+
         $this->broker->setData([
             'emailAddress' => $payload,
-            'storyIds' => $storyIds
+            'storyIds' => $storyIds,
+            'didSend' => $didSend
         ]);
     }
 
@@ -50,7 +68,7 @@ class HackerNewsEmailWorker extends AbstractBaseWorker
             UserException::emptyPayload();
         }
 
-        if (!filter_var($payload, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($payload['email'], FILTER_VALIDATE_EMAIL)) {
             UserException::invalidEmailAddress($payload);
         }
 

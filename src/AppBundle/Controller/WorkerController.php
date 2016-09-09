@@ -34,7 +34,7 @@ class WorkerController extends Controller
         $scheduler = $this->get('service.job_scheduler');
 
         $scheduler->setWorkerClass(HackerNewsEmailWorker::class);
-        $scheduler->setJobData($email);
+        $scheduler->setJobData(['email' => $email]);
 
         $jobId = $scheduler->schedule();
 

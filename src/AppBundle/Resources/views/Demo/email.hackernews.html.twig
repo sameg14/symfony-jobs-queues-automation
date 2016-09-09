@@ -1,0 +1,6 @@
+{% if stories is not empty %}
+    {% for story in stories %}
+        <h3>{{ story.title }}</h3>
+        <p>{{ story.text|raw }}</p>
+    {% endfor %}
+{% endif %}

@@ -102,9 +102,15 @@ abstract class AbstractBaseWorker
      */
     public function log($msg)
     {
+        $msg = print_r($msg, true);
+
         if (!isset($this->logger)) {
             $this->logger = $this->container->get('logger');
         }
+
+        $fp = fopen('/tmp/debug', 'a+');
+        fwrite($fp, $msg);
+        fclose($fp);
 
         return $this->logger->addDebug($msg);
     }
@@ -199,10 +205,6 @@ abstract class AbstractBaseWorker
      */
     protected function getPayload()
     {
-        if (!empty($this->args) && sizeof($this->args) == 1) {
-            $this->args = $this->args[0];
-        }
-
         return !empty($this->args) && isset($this->args['body']) ? $this->args['body'] : $this->args;
     }
 
