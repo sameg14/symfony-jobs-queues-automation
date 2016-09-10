@@ -11,7 +11,7 @@ In order to run the demo locally you will need to install the following software
 
 ### Clone and provision
 ```
-git@github.com:sameg14/symfony-jobs-queues-automation.git
+git clone git@github.com:sameg14/symfony-jobs-queues-automation.git
 cd symfony-jobs-queues-automation
 vagrant up
 ```
