@@ -1,8 +1,8 @@
 Jobs, Queues & Automation
 ==============================
+![](web/img/jobs_queues_and_automation.png)
 
-In order to run the demo locally you will need to install the following software
-
+### Required software
 - [virtualbox](https://www.virtualbox.org/wiki/Downloads)
 - [vagrant](https://www.vagrantup.com/downloads.html)
 - [homebrew](http://brew.sh/)
