@@ -22,3 +22,6 @@ Add the following line to `/etc/hosts`
 
 ### Run demo
 [http://jobdemo.vm](http://jobdemo.vm)
+
+### Slides
+[Click here](https://docs.google.com/presentation/d/1c6zQ0aWFpTigfLNi2oLqEwgyVHMIlaarJZoS3V-wxIU/pub?start=false&loop=false&delayms=3000&slide=id.p)
