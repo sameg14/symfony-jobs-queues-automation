@@ -8,17 +8,19 @@ In order to run the demo locally you will need to install the following software
 - [homebrew](http://brew.sh/)
 - ansible `brew install ansible`
 
-Once you have the software installed clone this repository and run `cd symfony-jobs-queues-automation` `vagrant up`
 
-After the process is finished, you can SSH into the machine using `vagrant ssh`
+#### Clone and provision
+```
+git@github.com:sameg14/symfony-jobs-queues-automation.git
+cd symfony-jobs-queues-automation
+vagrant up
+```
 
-You can use supervisor crontrol to manage the worker processes `sudo supervisorctl`
+#### Add a hosts entry
+Add the following line to `/etc/hosts`
+```
+10.10.10.123    jobdemo.vm
+```
 
-The code will be mounted to a virtual folder located in `/var/www/app` on the VM. So any changes you make to this repo on your mac will be immedietly available to you in the VM
-
-You also need to add an `/etc/hosts` entry for the virtual domain
-
-`10.10.10.123    jobdemo.vm`
-
-
-You can now view the site in your browser [http://jobdemo.vm](http://jobdemo.vm)
+#### Run demo
+[http://jobdemo.vm](http://jobdemo.vm)
