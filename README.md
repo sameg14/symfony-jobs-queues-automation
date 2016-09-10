@@ -1,5 +1,3 @@
-Jobs, Queues & Automation
-==============================
 ![](web/img/jobs_queues_and_automation.png)
 
 ### Required software
