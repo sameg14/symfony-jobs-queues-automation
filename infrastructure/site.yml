@@ -1,7 +1,7 @@
 ---
-- hosts: all
+- hosts: vm
   roles:
-    - common
+    - php
     - nginx
     - redis
     - resque
