@@ -36,7 +36,7 @@ class AppKernel extends Kernel
     {
         $dir = '/tmp/cache/' . $this->getEnvironment();
         if (!is_dir($dir)) {
-            mkdir($dir);
+            mkdir($dir, 0777, $recursive = true);
         }
 
         return $dir;
@@ -46,7 +46,7 @@ class AppKernel extends Kernel
     {
         $dir = '/tmp/logs';
         if (!is_dir($dir)) {
-            mkdir($dir);
+            mkdir($dir, 0777, $recursive = true);
         }
 
         return $dir;
